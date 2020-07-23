@@ -1,0 +1,62 @@
+Factorial Benchmark for SAT-solvers and Stable Model Semantics solvers
+======================================================================
+
+This package contains a generator of factorial benchmarks for different
+solvers. It is able to produce problem instances in smodels- and dimacs-
+formats. This package has been tested to work under Debian Linux 
+operating system, but it is expected to work also under different 
+flavors of Unix. 
+
+This package is based on the problem of factoring, i.e., finding
+numbers which when multiplied produce some given number. This package
+approaches this problem by constructing problem instances
+corresponding well-known multiplier circuits having their outputs
+hardcoded. The way to satisfy such instance, is to find the valuation
+for inputs. . Outputs may be hardcoded to prime numbers, corresponding
+unsatisfiable instances, or composite numbers, corresponding one or
+two solutions.
+
+It uses GNU multi-precision library, which has to be installed prior to 
+installing this package. To use this package, you need at least 
+version 3.0 of this library. 
+
+To build and install package use commands
+> make 
+> make install
+
+Once installed, you are able to create problem instances using the 
+command
+> genfacbm [smodels|dimacs|bcsat] [type] [atree|braun] width seed
+
+As parameters you define the output format, the type of instance, which
+is sat(isfiable), unsat(isfiable) or 4,8,16,32,64,128,256 or 512 being the 
+amount of the solutions to the instance, and the multiplier circuit design
+for the instance (atree/braun). The expected computational effort
+depends mostly on the width of the instance. This specifies the size
+of the number to be factored in bits. Seed specifies which of
+instances at this width shall be produced. The instances differ by the
+hardcoded number. The instance will be output to standard output. 
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2
+as published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+If you experience problems with this package, you may contact the
+author Tuomo Pyhälä <Tuomo.Pyhala@hut.fi>.
+
+The bc2cnf utility distributed in this package is made by 
+Tommi Junttila <Tommi.Junttila@hut.fi>.
+
+
+
+
+

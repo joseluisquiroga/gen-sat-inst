@@ -1,0 +1,172 @@
+sgen: A generator for small but diﬃcult satisﬁability instances
+Ivor Spence∗
+i.spence@qub.ac.uk
+December 2006
+
+1
+
+Introduction
+
+The generator takes two arguments and generates an unsatisﬁable instance of the satisﬁability problem. 
+
+The ﬁrst argument indicates the required number of variables (which is reduced until it is of the form 4g + 1 where g ∈ N1 ) and the second is used as a seed for a random number generator.
+
+If the number of variables is 4g + 1 then the number of clauses is 8g + 12. Each clause has three literals, so if the number of variables is n, then as n increases the number of clauses is approximately 2n and the number of literals is approximately 6n.
+
+Generating small yet diﬃcult instances requires a balance among the following constraints:
+
+1. The instance should be unsatisﬁable to prevent a “lucky” discovery of a satisfying assignment.
+
+2. To keep the instance short, each clause should eliminate a large number of possibilities.
+
+3. To make the instance hard to solve, the variables in each clause should not be “related”, that is occur together in other clauses.
+
+Unfortunately, 2 and 3 are in conﬂict. Having unrelated variables tends to preclude a clause eliminating a large number of possible assignments. 
+
+In the spirit of Hirsch’s hgen8 program the compromise used here is to group the variables into sets of size four (in two diﬀerent groupings) and have multiple clauses re-use the variables in each group.
+
+2
+Satisﬁable instances
+
+Consider ﬁrst the generation of satisﬁable instances where the number of variables is of the form n = 4g. We partition the variables into g groups of size four and, for each group, generate clauses of the form:
+
+(a ∨ b ∨ c) ∧ (a ∨ b ∨ d) ∧ (a ∨ c ∨ d) ∧ (b ∨ c ∨ d)
+
+This permits at most two variables from the set {a, b, c, d} to be true and therefore in total at most 2g = n variables 2 can be true.
+
+Now we partition the variables into a diﬀerent collection of g groups and, for each group, generate clauses of the form:
+
+(a ∨ b ∨ c) ∧ (a ∨ b ∨ d) ∧ (a ∨ c ∨ d) ∧ (b ∨ c ∨ c)
+
+This time at most two variables from each group can be false and overall at most 2g = n variables can be false.
+
+2
+Taking these two sets of clauses together it can be seen that overall exactly half of the variable must be true and exactly half must be false. Instances of this form are not very diﬃcult for current solvers - on an example conﬁguration zchaﬀ took less than 1 second to solve a 52 variable (312 literals) instance.
+
+It is not clear that such instances must be satisﬁable, i.e. that there is always an assignment of exactly two variables true for each of the ﬁrst set of groups which also makes exactly two variables true for each of the second set of groups, but every such instance tested so far has been satisﬁable.
+
+3
+Unsatisﬁable instances
+
+To generate unsatisﬁable instances we choose to have an odd number of variables and force n+1 to be true at the 2 same time as forcing n+1 to be false - clearly impossible. We achieve this by replacing the ﬁnal group of four 2 variables with a group of ﬁve variables and, for this group only, by generating clauses of the form
+
+(a ∨ b ∨ c ∨ d) ∧ (a ∨ b ∨ c ∨ e) ∧ (a ∨ b ∨ d ∨ e) ∧ (a ∨ c ∨ d ∨ e) ∧ (b ∨ c ∨ d ∨ e)
+ 
+This allows at most two from this group to be true. Correspondingly for the second round of positive literals we allow at most two from the ﬁnal group to be false. These unsatisﬁable instances were much harder to solve. 
+
+For example, zchaﬀ took more than 8 seconds to solve a 53 variable (348 literals) instance.
+
+4
+
+Partitions
+
+To create diﬃcult instances we need to ensure that there is as little connection as possible between the two partitions.
+The ﬁrst partition is the straightforward {1, 2, 3, 4}, {5, 6, 7, 8} etc. The second partition is obtained by using simulated
+annealing, with a weight function which tries to minimise the extent to which the original partition is reﬂected in the
+second one.
+
+5
+
+Conclusions
+
+The generated benchmarks (all unsatisﬁable) appear to be amongst the most diﬃcult for their size, both in terms of
+number of variables and in terms of number of literals. For some well-known solvers running under linux on a 3-GHz
+processor, the largest benchmarks solved within 600 seconds were as follows:
+Solver
+kcnfs
+march dl
+sat4j
+SatELite
+
+Benchmark
+s85-100.cnf
+s85-100.cnf
+s77-100.cnf
+s77-100.cnf
+
+No. vars
+85
+85
+77
+77
+
+No. lits
+540
+540
+492
+492
+
+Solver
+siege v4
+vallst
+zchaﬀ
+
+Benchmark
+s77-100.cnf
+s57-100.cnf
+s73-100.cnf
+
+No. vars
+77
+57
+73
+
+No. lits
+492
+372
+468
+
+The complete results are given below. Note that the time scale is logarithmic and that a time of 600s means that
+the solver did not ﬁnish within 600s. All of these benchmarks were generated using a seed of 100 and it can be seen
+that the times for kcnfs and march dl increase in a very regular manner whereas other solvers found s69-100.cnf (69
+variables, 444 literals) surprisingly easy. There is scope for further investigation using diﬀerent random seeds.
+Number of variables
+55
+
+60
+
+65
+
+70
+
+75
+
+80
+
+85
+
+90
+
+1000
+
+100
+Time (s)
+
+kcnfs
+march-dl
+sat4j
+SatELite
+siege-v4
+vallst
+zchaﬀ
+Limit 600s
+
+10
+
+1
+400
+
+450
+
+500
+
+Number of literals
+
+The benchmarks are available from
+http://www.cs.qub.ac.uk/∼i.spence/sgen.
+
+2
+
+550
+
+

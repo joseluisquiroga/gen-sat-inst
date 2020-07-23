@@ -1,0 +1,10 @@
+
+Adaptation by QUIROGA Jose Luis of Tuomo Pyhala 's code to generate dimacs instances that
+decide primality of integers. If prime it is unsatisfiable if composite
+it is satisfiable.
+
+To build type 'make'
+To run type 'gsat_is_prime'
+
+Tested on ubuntu 10.04 LTS Lucid Lynx.
+

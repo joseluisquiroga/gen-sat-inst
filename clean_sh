@@ -1,0 +1,6 @@
+rm *~
+rm src_cyto_no_clq/*~
+rm src_cyto_pigeon/*~
+rm src_pigeon/*~
+rm src_no_clq/*~
+rm src_is_prime/*~

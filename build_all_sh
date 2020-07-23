@@ -1,0 +1,34 @@
+
+BASE_DIR=`pwd`
+
+cd ${BASE_DIR}/src_no_clq
+g++ no_clq.cpp -o gsat_no_clq
+mv gsat_no_clq ${BASE_DIR}/bin
+
+cd ${BASE_DIR}/src_pigeon
+g++ pigeon.cpp -o gsat_pigeon
+mv gsat_pigeon ${BASE_DIR}/bin
+
+cd ${BASE_DIR}/src_is_prime
+make clean
+make
+mv gsat_is_prime ${BASE_DIR}/bin
+make clean
+
+cd ${BASE_DIR}/src_cyto_pigeon
+g++ cyto_pigeon.cpp -o gsat_cyto_pigeon
+mv gsat_cyto_pigeon ${BASE_DIR}/bin
+
+cd ${BASE_DIR}/src_cyto_no_clq
+g++ cyto_no_clq.cpp -o gsat_cyto_no_clq
+mv gsat_cyto_no_clq ${BASE_DIR}/bin
+
+cd ${BASE_DIR}/src_sgen
+gcc sgen1.c -o gsat_sgen1 -lm
+mv gsat_sgen1 ${BASE_DIR}/bin
+
+cd ${BASE_DIR}/src_cardi
+make
+mv gsat_cardi ${BASE_DIR}/bin
+make clean
+
